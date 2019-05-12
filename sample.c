@@ -271,7 +271,7 @@ int main(int argc,char ** argv){
 		//pause();
 		//sleep(3);
 		//printf("Child 2 process ended\n");
-      //-------end of  the first_child process-----------------------
+      //-------end of  the second_child process-----------------------
 	}
 	
 	else      //-------------in the parent process-----------------------
