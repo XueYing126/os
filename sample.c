@@ -51,7 +51,7 @@ void readFrompipe(int num,int *pipefd,int* voters){
 void fifosend(int num,int* voters){
 	int remark,status,i;
 	bool cannotVote;
-	char rem[4];
+	char rem[13];
 	int f=open("namedpipe",O_WRONLY);
 	 for(i=0;i<num;++i)
 	{
@@ -59,10 +59,11 @@ void fifosend(int num,int* voters){
 	 
 	 bool cannotVote = rand() % 100 < 20;
 	
+	//„can vote”/”can not vote” 
 	if(cannotVote)
-		strcpy(rem,"not");
+		strcpy(rem,"can not vote");
 	else
-		strcpy(rem,"can");
+		strcpy(rem,"can vote    ");
 	
 	  write(f,rem,strlen(rem)+1);
 	}
@@ -72,8 +73,8 @@ void fifosend(int num,int* voters){
 void fifoRecieve(int num,int* canVoters,int* realNum){
 	int vo,i;
 	int j=0;
-	char sz[4];
-	char str1[4];
+	char sz[13];
+	char str1[13];
 	int f=open("namedpipe",O_RDONLY);
 	
 	
@@ -81,12 +82,12 @@ void fifoRecieve(int num,int* canVoters,int* realNum){
 		read(f,&vo,sizeof(vo));
 		read(f,&sz,sizeof(sz));
 		printf("Second child read data: %i  %s \n",vo,sz);
-		//canVoters[i] = vo;
+
 		strcpy(str1,sz);
-		if(strcmp(str1,"can")==0){
+		if(strcmp(str1,"can vote    ")==0){
 			canVoters[i] = vo;
 			++*realNum;
-			//printf("this is can---------------- \n");
+			
 		}else{
 			canVoters[i] = 0;
 		}
@@ -122,6 +123,7 @@ void sendMsg(int msgID,int num,int * canVoters){
 		
 		randnum = rand() % 6 + 1;
 		
+		//convert in to string: 
 		snprintf(buf, sizeof(buf), "%d %d", idNum, randnum);
 		strcpy(m.mtext, buf);
 		status = msgsnd(msgID,&m, (strlen ( m.mtext ) + 1), 0 );
@@ -271,7 +273,7 @@ int main(int argc,char ** argv){
 		//pause();
 		//sleep(3);
 		//printf("Child 2 process ended\n");
-      //-------end of  the second_child process-----------------------
+      //-------end of  the sencond_child process-----------------------
 	}
 	
 	else      //-------------in the parent process-----------------------
