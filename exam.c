@@ -96,8 +96,8 @@ void readMsg(int msgID){
  
 
  //destroy msg queue
- //if ( msgctl( msgID, IPC_RMID, NULL ) < 0 ) 
-	// {  perror("msgctl error");  exit(EXIT_FAILURE); }
+ if ( msgctl( msgID, IPC_RMID, NULL ) < 0 ) 
+	 {  perror("msgctl error");  exit(EXIT_FAILURE); }
  
 }
 
